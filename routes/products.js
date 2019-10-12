@@ -1,6 +1,6 @@
 var express = require('express');
 var mysql = require('mysql2');
-var dotenv = require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') { require('dotenv').config() }
 var router = express.Router();
 /* MySQL Set Up */
 const connection = mysql.createConnection({
