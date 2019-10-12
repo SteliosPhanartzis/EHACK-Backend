@@ -22,34 +22,46 @@ router.get('/', function(req, res, next) {
 	});
 });
 
-router.post('/', upload.single('barcode'),async function(req, res, next) {
-	var code = 0;
+// router.post('/', upload.single('barcode'),async function(req, res, next) {
+// 	var code = 0;
+// 	// var query = "UPDATE user SET points=points+(SELECT retPoints from Item WHERE prodId =" + code + " ) WHERE email='" + user + "'"
+// 	if(req.file) {
+// 		Image = req.file.path
+// 		try {
+// 		  code = await jsBarcodeReader(
+// 		    Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
+// 		    {
+// 		      barcode: 'ean-13',
+// 		      type: 'industrial', //optional type
+// 		    }
+// 		  )
+// 		  console.log(code)
+// 			var query = "UPDATE user SET points=points+(SELECT retPoints from Item WHERE prodId =" + code + " ) WHERE email='" + user + "'"
+// 			connection.query(query, (err, rows) => {
+// 				if (err) throw err;
+// 			});
+// 		} catch (err) {
+// 		  console.log(err)
+// 		}
+// 	}
+// 	var qry = "SELECT points FROM user WHERE email = '" + user + "'";
+// 	connection.query(qry, (err, rows) => {
+// 		if (err) throw err;
+// 		res.json(rows[0]);
+// 	});
+// });
+router.post('/'){
 	var user = "testuser@gmail.com";
-	if(req.file) {
-		Image = req.file.path
-		try {
-		  code = await jsBarcodeReader(
-		    Image /* Image ID || HTML5 Image || HTML5 Canvas || HTML5 Canvas ImageData || Image URL */,
-		    {
-		      barcode: 'ean-13',
-		      type: 'industrial', //optional type
-		    }
-		  )
-		  console.log(code)
-			var query = "UPDATE user SET points=points+(SELECT retPoints from Item WHERE prodId =" + code + " ) WHERE email='" + user + "'"
-			connection.query(query, (err, rows) => {
-				if (err) throw err;
-			});
-		} catch (err) {
-		  console.log(err)
-		}
-	}
+	var query = "UPDATE user SET points=points+100 WHERE email='" + user + "'"
+	connection.query(query, (err, rows) => {
+		if (err) throw err;
+	});
 	var qry = "SELECT points FROM user WHERE email = '" + user + "'";
 	connection.query(qry, (err, rows) => {
 		if (err) throw err;
 		res.json(rows[0]);
 	});
-});
+}
 function sanitizer(input) {
 	var reg = /[&<>"'/\\]/ig;
 	var map = {
