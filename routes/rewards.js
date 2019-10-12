@@ -50,7 +50,7 @@ router.get('/', function(req, res, next) {
 // 		res.json(rows[0]);
 // 	});
 // });
-router.post('/'){
+router.post('/', function (req,res,next) {
 	var user = "testuser@gmail.com";
 	var query = "UPDATE user SET points=points+100 WHERE email='" + user + "'"
 	connection.query(query, (err, rows) => {
@@ -61,7 +61,7 @@ router.post('/'){
 		if (err) throw err;
 		res.json(rows[0]);
 	});
-}
+});
 function sanitizer(input) {
 	var reg = /[&<>"'/\\]/ig;
 	var map = {
