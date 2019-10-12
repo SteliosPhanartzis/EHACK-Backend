@@ -9,6 +9,24 @@ const connection = mysql.createConnection({
 	password: process.env.DB_PASS,
 	database: process.env.DB_SCHEMA
 });
+/* GET users listing. */
+router.get('/', function(req, res, next) {
+	var uid = sanitizer(req.query.data)
+	var query = "SELECT points FROM user WHERE email='" + uid + "'"
+	connection.query(query, (err, rows) => {
+		if (err) throw err;
+		res.json(rows[0]);
+	});
+});
+
+router.post('/', function(req, res, next) {
+	var user = "testuser@gmail.com";
+	var query = "UPDATE user SET points=points+100 WHERE email='" + user + "'"
+	connection.query(query, (err, rows) => {
+		if (err) throw err;
+	});
+	res.json(user);
+});
 function sanitizer(input) {
 	var reg = /[&<>"'/\\]/ig;
 	var map = {
@@ -22,22 +40,4 @@ function sanitizer(input) {
 	};
 	return input.replace(reg, (char)=>(map[char]));
 }
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-	var uid = sanitizer(req.query.data)
-	var query = "SELECT points FROM user WHERE email='" + uid + "'"
-	connection.query(query, (err, rows) => {
-		if (err) throw err;
-		res.json(rows[0]);
-	});
-});
-
-// router.post('/', function(req, res, next) {
-// 	var item = sanitizer(req.body.data)
-// 	var query = "UPDATE user SET points WHERE email='" + uid + "'"
-// 	connection.query(query, (err, rows) => {
-// 		if (err) throw err;
-// 		res.json(rows);
-// 	});
-// });
 module.exports = router;
