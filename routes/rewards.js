@@ -36,7 +36,7 @@ router.post('/', upload.single('barcode'),async function(req, res, next) {
 		    }
 		  )
 		  console.log(code)
-		  console.log(req)
+		  // console.log(req)
 		  console.log(req.file)
 			var query = "UPDATE user SET points=points+(SELECT retPoints from Item WHERE prodId =" + code + " ) WHERE email='" + user + "'"
 			connection.query(query, (err, rows) => {
